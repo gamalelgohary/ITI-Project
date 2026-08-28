@@ -1,0 +1,44 @@
+﻿@model ITI_Project.DTO.StockDTO
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Manage Stock";
+}
+
+<div class="container my-5" style="max-width: 600px;">
+    <div class="card shadow-sm border-0 rounded-4">
+        <!-- Card Header -->
+        <div class="card-header d-flex justify-content-between align-items-center text-white rounded-top-4"
+             style="background-color:#486888;">
+            <h3 class="fw-bold mb-0">
+                <i class="bi bi-pencil-square"></i> Manage Stock
+            </h3>
+            <a asp-action="GetStocks" asp-controller="Stock" class="btn btn-sm btn-light">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+            <form asp-action="ManageStock">
+                <input type="hidden" asp-for="ProductId" />
+
+                <!-- Quantity -->
+                <div class="mb-3">
+                    <label asp-for="Quantity" class="form-label fw-semibold">Quantity</label>
+                    <input type="number" class="form-control" asp-for="Quantity" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+
+                <!-- Submit -->
+                <div class="d-flex justify-content-end">
+                    <button type="submit"
+                            class="btn text-white"
+                            style="background-color:#28a745; border-color:#28a745;">
+                        <i class="bi bi-check2-circle"></i> Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

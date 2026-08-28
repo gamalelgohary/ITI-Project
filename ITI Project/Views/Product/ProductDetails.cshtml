@@ -1,0 +1,122 @@
+﻿@model ITI_Project.Models.Product
+
+@{
+    ViewData["Title"] = Model.ProductName;
+}
+
+<style>
+    /* الألوان والتنسيق */
+    .product-name {
+        color: #2c3e50; /* داكن أزرق/رمادي */
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .product-category {
+        color: #16a085; /* أخضر فاتح متناسق */
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .product-description {
+        color: #34495e; /* رمادي داكن */
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .product-price {
+        color: #e67e22; /* برتقالي جذاب */
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+
+    .btn-add-cart {
+        background-color: #2980b9;
+        color: #fff;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-add-cart:hover {
+        background-color: #1c5980;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* تأثير الصورة */
+    /* .product-image { */
+    /*     width: 100%; */
+    /*     height: 100%; */
+    /*     object-fit: cover; */
+    /*     transition: all 0.3s ease; */
+    /*     box-shadow: 0 4px 12px rgba(0,0,0,0.2); */
+    /*     border-radius: 8px; */
+    /* } */
+
+    /* .product-image:hover { */
+    /*     transform: scale(1.05); */
+    /*     box-shadow: 0 8px 20px rgba(0,0,0,0.35); */
+    /* } */
+</style>
+
+<div class="card border-success rounded-4 mt-5 overflow-hidden shadow-sm">
+    <div class="row g-0">
+        <!-- Details Left -->
+        <div class="col-md-8 p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex flex-column gap-3">
+                <h1 class="product-name">@Model.ProductName</h1>
+                <span class="product-category">
+                    <i class="bi bi-tag"></i> @Model.Categories?.CategoryName
+                </span>
+                <p class="product-description">@Model.Description</p>
+                <p class="product-price">@Model.Price EGP</p>
+            </div>
+
+            <!-- Add To Cart or Out of Stock -->
+            <div class="mt-4">
+                @if (Model.Stock?.Quantity > 0)
+                {
+                        <button type="button" onclick="add(@Model.Id)" class="btn btn-add-cart btn-lg">
+                            <i class="bi bi-cart-plus"></i> Add To Cart
+                        </button>
+                }
+                else
+                {
+                        <span class="badge bg-danger fs-5">Out of stock</span>
+                }
+            </div>
+        </div>
+
+        <!-- Image Right -->
+        <div class="col-md-4 p-3">
+            <img src="@(string.IsNullOrEmpty(Model.Image) ? "/Images/No image.jpg" : "/Images/" + Model.Image)"
+                 class="img-fluid product-image"
+                 alt="@Model.ProductName"
+                 title="@Model.ProductName" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <script>
+            async function add(productId) {
+                var usernameEl = document.getElementById("username");
+                if (!usernameEl) {
+                    window.location.href = "/Identity/Account/Login";
+                    return;
+                }
+                try {
+                    var response = await fetch(`/Cart/AddItem?ProductId=${productId}`);
+                    if (response.status === 200) {
+                        var result = await response.json();
+                        document.getElementById("cartCount").innerHTML = result;
+                        window.location.href = "#cartCount";
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        </script>
+}

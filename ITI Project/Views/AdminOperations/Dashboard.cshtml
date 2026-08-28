@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-5">
+    <!-- Header -->
+    <div class="text-center p-5 shadow rounded-4 text-black"
+         style="background: linear-gradient( #ffffff, #ffffff);">
+        <h1 class="display-4 fw-bold">Welcome to Your Dashboard 🎉</h1>
+        <p class="lead mt-3 opacity-75">
+            Manage your application, track progress, and explore insights all in one place.
+        </p>
+
+
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mt-5 text-center">
+        <div class="col-md-4 d-flex">
+            <div class="card shadow border-0 rounded-4 hover-card h-100 w-100">
+                <div class="card-body p-4">
+                    <i class="bi bi-people-fill text-primary fs-1"></i>
+                    <h5 class="card-title mt-3">Users</h5>
+                    <p class="text-muted">Manage all registered users and roles.</p>
+                    <h4 class="fw-bold text-primary">1,245</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 d-flex">
+            <div class="card shadow border-0 rounded-4 hover-card h-100 w-100">
+                <div class="card-body p-4">
+                    <i class="bi bi-bag-check-fill text-success fs-1"></i>
+                    <h5 class="card-title mt-3">Orders</h5>
+                    <p class="text-muted">Track and manage recent orders easily.</p>
+                    <h4 class="fw-bold text-success">320</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 d-flex">
+            <div class="card shadow border-0 rounded-4 hover-card h-100 w-100">
+                <div class="card-body p-4">
+                    <i class="bi bi-graph-up-arrow text-warning fs-1"></i>
+                    <h5 class="card-title mt-3">Analytics</h5>
+                    <p class="text-muted">View performance and growth statistics.</p>
+                    <h4 class="fw-bold text-warning">+24%</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<!-- Extra Styling -->
+<style>
+    .hover-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .hover-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+</style>

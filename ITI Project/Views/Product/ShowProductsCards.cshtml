@@ -1,0 +1,107 @@
+﻿@using ITI_Project.DTO
+@model ProductDisplayModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="my-2">
+    <form id="searchForm" class="row row-cols-lg-auto g-3 align-items-center">
+        <!-- Categories -->
+        <div class="col-12">
+            <label class="visually-hidden" for="CategoryId">Categories</label>
+            <select class="form-select" id="CategoryId" name="CategoryId">
+                <option value="">All Categories</option>
+                @foreach (var Category in Model.Categories)
+                {
+                    if (Category.Id == Model.CategoryId)
+                    {
+                        <option value="@Category.Id" selected>@Category.CategoryName</option>
+                    }
+                    else
+                    {
+                        <option value="@Category.Id">@Category.CategoryName</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <!-- Search input -->
+        <div class="col-12">
+            <label class="visually-hidden" for="sTerm">Search by title</label>
+            <div class="input-group">
+                <div class="input-group-text"><i class="bi bi-search"></i></div>
+                <input type="text" class="form-control" value="@Model.sTerm" id="sTerm" name="sTerm" placeholder="Search by title">
+            </div>
+        </div>
+
+        <!-- Live Reset button -->
+        <div class="col-12">
+            <button type="button" id="btnReset" class="btn btn-dark">Reset</button>
+        </div>
+    </form>
+</div>
+
+<!-- Container for products -->
+<div id="productsContainer">
+    @await Html.PartialAsync("_ProductsCardsPartial", Model)
+</div>
+
+@section Scripts {
+    <script>
+        // Add to Cart function
+        async function add(productId) {
+            var usernameEl = document.getElementById("username");
+            if (!usernameEl) {
+                window.location.href = "/Identity/Account/Login";
+                return;
+            }
+            
+            try {
+                var response = await fetch(`/Cart/AddItem?ProductId=${productId}`);
+                if (response.status === 200) {
+                    var result = await response.json();
+                    document.getElementById("cartCount").innerHTML = result;
+                    window.location.href = "#cartCount";
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        // Live search & category filter
+        async function filterProducts() {
+            const categoryId = document.getElementById("CategoryId").value;
+            const sTerm = document.getElementById("sTerm").value;
+
+            try {
+                const response = await fetch(`/Product/FilterProducts?CategoryId=${categoryId}&sTerm=${encodeURIComponent(sTerm)}`);
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById("productsContainer").innerHTML = html;
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // Event listeners for live search/filter
+        document.getElementById("sTerm").addEventListener("input", filterProducts);
+        document.getElementById("CategoryId").addEventListener("change", filterProducts);
+
+        // Live Reset button
+        document.getElementById("btnReset").addEventListener("click", async function() {
+            document.getElementById("sTerm").value = "";
+            document.getElementById("CategoryId").value = "";
+
+            try {
+                const response = await fetch(`/Product/FilterProducts`);
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById("productsContainer").innerHTML = html;
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    </script>
+}

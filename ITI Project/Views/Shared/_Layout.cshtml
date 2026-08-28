@@ -1,0 +1,531 @@
+﻿@using ITI_Project.Constants
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fitinity - @ViewData["Title"]</title>
+    <link rel ="stylesheet" href="~/css/bootstrap.min (1).css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/css/fitness.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="~/Images/Apple Icon.png" />
+    <link rel="stylesheet" href="~/ITI_Project.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    @RenderSection("Styles", required: false)
+
+    <style>
+        :root {
+        --primary-color: #1a2a6c;
+        --secondary-color: #b21f1f;
+        --accent-color: #fdbb2d;
+        --light-color: #ff6b6b;
+        }
+
+        html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        }
+
+        body {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        color: #333;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        }
+
+        /* شريط التنقل */
+        .navbar {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color)) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        padding: 12px 0;
+        }
+
+        .navbar-brand {
+        font-weight: bold;
+        font-size: 1.8rem;
+        color: white !important;
+        display: flex;
+        align-items: center;
+        }
+
+        .navbar-brand i {
+        margin-right: 10px;
+        color: var(--accent-color);
+        }
+
+        .nav-link {
+        color: rgba(255, 255, 255, 0.85) !important;
+        font-weight: 500;
+        padding: 8px 15px !important;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        margin: 0 5px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+        color: white !important;
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        }
+
+        /* زر التسجيل والدخول */
+        .btn-outline-light {
+        color: white;
+        border-color: white;
+        }
+
+        .btn-outline-light:hover {
+        background-color: white;
+        color: var(--primary-color);
+        }
+
+        .btn-primary {
+        background: var(--light-color);
+        border: none;
+        }
+
+        .btn-primary:hover {
+        background: #ff8e8e;
+        transform: translateY(-2px);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+        flex: 1 0 auto;
+        padding: 20px 15px;
+        width: 100%;
+        }
+
+        /* بطاقات محتوى الصفحات */
+        .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        }
+
+        .card:hover {
+        transform: translateY(-5px);
+        }
+
+        .card-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+        border: none;
+        }
+
+        /* الجداول */
+        .table th {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        }
+
+        /* الأزرار */
+        .btn-success {
+        background: var(--accent-color);
+        border: none;
+        }
+
+        .btn-success:hover {
+        background: #e6a825;
+        }
+
+        /* تصميم متجاوب */
+        @@media (max-width: 768px) {
+        .navbar-brand {
+        font-size: 1.5rem;
+        }
+
+        .nav-link {
+        margin: 5px 0;
+        text-align: center;
+        }
+
+        .btn {
+        margin: 5px 0;
+        }
+        }
+
+        /* عدّاد السلة */
+        .cart-count {
+        background-color: var(--light-color);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        position: relative;
+        top: -10px;
+        right: 7px;
+        }
+
+        /* FOOTER STYLES - FULL WIDTH (SMALLER SIZE) */
+        .site-footer {
+        background: linear-gradient(135deg, #5a5a5a 0%, #3a3a3a 100%);
+        color: #f1f1f1;
+        padding: 1.5rem 0 0.8rem;
+        width: 100%;
+        flex-shrink: 0;
+        margin-top: auto;
+        }
+
+        .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        }
+
+        .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        }
+
+        .footer-column {
+        flex: 1;
+        min-width: 200px;
+        }
+
+        .footer-column h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        position: relative;
+        padding-bottom: 0.4rem;
+        font-weight: 600;
+        color: #e0e0e0;
+        }
+
+        .footer-column h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: linear-gradient(to right, #d4af37, #6a11cb);
+        border-radius: 2px;
+        }
+
+        .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        }
+
+        .footer-links li {
+        margin-bottom: 0.6rem;
+        }
+
+        .footer-links a {
+        color: #d1d1d1;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+        color: #ffffff;
+        transform: translateX(3px);
+        }
+
+        .footer-links a i {
+        font-size: 0.8rem;
+        color: #d4af37;
+        }
+
+        .footer-social {
+        display: flex;
+        gap: 0.8rem;
+        margin-top: 1rem;
+        }
+
+        .social-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        color: #d4af37;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.9rem;
+        }
+
+        .social-icon:hover {
+        background: linear-gradient(135deg, #d4af37 0%, #6a11cb 100%);
+        color: white;
+        transform: translateY(-2px);
+        }
+
+        .footer-newsletter p {
+        margin-bottom: 1rem;
+        line-height: 1.5;
+        color: #d1d1d1;
+        font-size: 0.85rem;
+        }
+
+        .newsletter-form {
+        display: flex;
+        gap: 0.4rem;
+        margin-bottom: 1rem;
+        }
+
+        .newsletter-input {
+        flex: 1;
+        padding: 0.6rem 0.8rem;
+        border: none;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 0.85rem;
+        }
+
+        .newsletter-input::placeholder {
+        color: #ccc;
+        font-size: 0.8rem;
+        }
+
+        .newsletter-btn {
+        padding: 0.6rem 1rem;
+        border: none;
+        border-radius: 4px;
+        background: linear-gradient(135deg, #d4af37 0%, #6a11cb 100%);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-size: 0.85rem;
+        }
+
+        .newsletter-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(106, 17, 203, 0.4);
+        }
+
+        .footer-contact-item {
+        display: flex;
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        }
+
+        .contact-icon {
+        margin-top: 0.1rem;
+        color: #d4af37;
+        font-size: 1rem;
+        min-width: 16px;
+        }
+
+        .contact-info {
+        flex: 1;
+        color: #d1d1d1;
+        font-size: 0.85rem;
+        }
+
+        .footer-bottom {
+        text-align: center;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #aaa;
+        font-size: 0.8rem;
+        }
+
+        .payment-methods {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 0.8rem;
+        }
+
+        .payment-icon {
+        width: 32px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #d4af37;
+        font-size: 10px;
+        }
+
+        /* RESPONSIVE STYLES FOR FOOTER */
+        @@media (max-width: 768px) {
+        .footer-content {
+        flex-direction: column;
+        gap: 1.5rem;
+        }
+
+        .newsletter-form {
+        flex-direction: column;
+        }
+
+        .footer-column {
+        min-width: 100%;
+        }
+
+        .site-footer {
+        padding: 1.5rem 0 0.8rem;
+        }
+        }
+    </style>
+</head>
+<script>
+    (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "uii6EUGDdLQ6QQQ9xgT9l"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
+</script>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/Home/Index">
+                    <i class="fas fa-dumbbell"></i> Fitinity
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Home/Index">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Product/ShowProductsCards">
+                                <i class="fas fa-shopping-bag"></i> Products
+                            </a>
+                        </li>
+
+                        @if (User.IsInRole(Roles.Admin.ToString()))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/AdminOperations/Dashboard">
+                                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER SECTION (SMALLER SIZE) -->
+    @if (ViewData["HideFooter"] == null || !(bool)ViewData["HideFooter"])
+    {
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>About Fitinity</h3>
+                        <p>We help you achieve your health and fitness goals through customized training and nutrition programs.</p>
+                        <div class="footer-social">
+                            <a href="javascript:void(0)" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="javascript:void(0)" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="javascript:void(0)" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="javascript:void(0)" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <ul class="footer-links">
+                            <li><a href="/Home/Index"><i class="fas fa-angle-right"></i> Home</a></li>
+                            <li><a href="javascript:void(0)"><i class="fas fa-angle-right"></i> About Us</a></li>
+                            <li><a href="javascript:void(0)"><i class="fas fa-angle-right"></i> Services</a></li>
+                            <li><a href="/Product/ShowProductsCards"><i class="fas fa-angle-right"></i> Products</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Our Services</h3>
+                        <ul class="footer-links">
+                            <li><a href="javascript:void(0)"><i class="fas fa-angle-right"></i> Personal Training</a></li>
+                            <li><a href="/Home/BMIPlan"><i class="fas fa-angle-right"></i> Nutrition Programs</a></li>
+                            <li><a href="/Home/BMIPlan"><i class="fas fa-angle-right"></i> BMI Calculator</a></li>
+                            <li><a href="/Product/ShowProductsCards"><i class="fas fa-angle-right"></i> Fitness Products</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Contact Us</h3>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt contact-icon"></i>
+                            <div class="contact-info">Mansoura,Dakahlia ,Egypt</div>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-phone contact-icon"></i>
+                            <div class="contact-info">+201026027887</div>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-envelope contact-icon"></i>
+                            <div class="contact-info">Fitinity@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2025 Fitinity. Unleash Your Potential | Designed with Passion for Fitness Warriors</p>
+                    <div class="payment-methods">
+                        <div class="payment-icon">Visa</div>
+                        <div class="payment-icon">MC</div>
+                        <div class="payment-icon">Pay</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+    <script>
+        loadCartCount();
+        async function loadCartCount() {
+            try {
+                var response = await fetch(`/Cart/GetCartItemCount`);
+                console.log(response)
+                if (response.status == 200) {
+                    var result = await response.json();
+                    var cartCountEl = document.getElementById("cartCount");
+                    cartCountEl.innerHTML = result;
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    </script>
+    <script src="~/js/fitness.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

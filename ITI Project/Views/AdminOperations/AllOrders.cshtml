@@ -1,0 +1,89 @@
+﻿@using ITI_Project.DTO
+@model IEnumerable<Order>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "AllOrders";
+}
+
+<div class="container my-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header text-white" style="background-color:#486888;">
+            <h4 class="mb-0"><i class="bi bi-basket2"></i> Orders</h4>
+        </div>
+        <div class="card-body p-0">
+            @if (Model != null && Model.Any())
+            {
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>📅 Date</th>
+                            <th>👤 Name</th>
+                            <th>📧 Email</th>
+                            <th>📱 Mobile</th>
+                            <th>🏠 Address</th>
+                            <th>💳 Payment</th>
+                            <th>📦 Status</th>
+                            <th class="text-center">⚙️ Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>@order.CreateDate.ToString("dd-MM-yyyy")</td>
+                                <td>@order.Name</td>
+                                <td>@order.Email</td>
+                                <td>@order.MobileNumber</td>
+                                <td>@order.Address</td>
+                                <td>
+                                    <span class="badge @(order.IsPaid ? "bg-success" : "bg-danger")">
+                                        @order.PaymentMethod - @(order.IsPaid ? "Paid" : "Not Paid")
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info text-dark">
+                                        @order.OrderStatus.StatusName
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <button type="button"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modal-@order.Id"
+                                                class="btn btn-sm text-white"
+                                                style="background-color:#486888;">
+                                            <i class="bi bi-eye"></i> Details
+                                        </button>
+
+                                        <a asp-action="UpdateOrderStatus"
+                                           asp-route-orderId="@order.Id"
+                                           class="btn btn-sm btn-warning text-white">
+                                            <i class="bi bi-pencil"></i> Status
+                                        </a>
+
+                                        <a asp-action="TooglePaymentStatus"
+                                           asp-route-orderId="@order.Id"
+                                           class="btn btn-sm btn-secondary">
+                                            <i class="bi bi-cash"></i> Payment
+                                        </a>
+                                    </div>
+
+                                    @* Modal partial *@
+                                    @await Html.PartialAsync("/Views/AdminOperations/_OrderDetailModel.cshtml",
+                                             new OrderDetailModelDTO { DivId = order.Id.ToString(), OrderDetail = order.OrderDetails })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center text-muted p-5">
+                    <i class="bi bi-clipboard-x" style="font-size:2rem;"></i>
+                    <p class="mt-2 mb-0">No orders found.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1193 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@{
+    ViewData["Title"] = "Plans";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness and Nutrition Program</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: white;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            padding-top: 70px; /* Add top padding to prevent content overlap with navbar */
+        }
+        
+        /* Fixed Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #ffdd00;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            color: #1a2a6c;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            color: #555;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Start Your Journey Button */
+        .cta-button {
+            display: block;
+            width: 250px;
+            margin: 30px auto;
+            padding: 18px;
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        
+        .cta-button:hover {
+            background: #ff8e8e;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* BMI Calculator Section */
+        .bmi-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            display: none;
+            border: 1px solid #eee;
+        }
+        
+        .bmi-section h2 {
+            text-align: center;
+            color: #2575fc;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .bmi-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .calculate-btn {
+            padding: 12px;
+            background: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .calculate-btn:hover {
+            background: #1a5fd0;
+        }
+        
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .result-details {
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            display: none;
+        }
+        
+        .result-details h4 {
+            color: #2575fc;
+            margin-bottom: 10px;
+        }
+        
+        /* Results Cards */
+        .results-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            margin-bottom: 10px;
+        }
+        
+        .underweight {
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+        }
+        
+        .normal {
+            background: linear-gradient(45deg, #56ab2f, #a8e063);
+        }
+        
+        .overweight {
+            background: linear-gradient(45deg, #ff512f, #dd2476);
+        }
+        
+        /* Nutrition Programs */
+        .nutrition-programs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .program-card {
+            background: white;
+            width: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .program-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .program-content {
+            padding: 20px;
+            flex-grow: 1; /* المحتوى يأخذ المساحة المتاحة */
+        }
+
+
+
+            .program-content h3 {
+                color: #2575fc;
+                margin-bottom: 10px;
+            }
+
+            .program-content p {
+                color: #666;
+                margin-bottom: 15px;
+            }
+
+        .program-button-container {
+            padding: 0 20px 20px; /* نفس padding الجانبي مع padding سفلي */
+            margin-top: auto; /* يدفع الزر إلى الأسفل */
+        }
+
+        .program-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+            .program-btn:hover {
+                background: #ff8e8e;
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+        
+        /* Detailed Nutrition Plan */
+        .nutrition-plan {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            border: 1px solid #eee;
+        }
+        
+        .nutrition-plan.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nutrition-plan h3 {
+            text-align: center;
+            color: #2575fc;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .plan-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .plan-header h4 {
+            color: #ff6b6b;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Diet Plan Days */
+        .plan-days {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .day-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .day-btn:hover {
+            background: #ddd;
+        }
+        
+        .day-btn.active {
+            background: #2575fc;
+            color: white;
+        }
+        
+        .day-plan {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+        
+        .day-plan.active {
+            display: block;
+        }
+        
+        .day-plan h5 {
+            color: #56ab2f;
+            border-bottom: 2px solid #56ab2f;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        
+        .meal {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .meal:before {
+            content: "•";
+            color: #ff6b6b;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+        
+        .meal h6 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        
+        .meal p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .close-plan {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .close-plan:hover {
+            background: #1a5fd0;
+        }
+        
+        /* Animation Effects */
+        keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        /* Responsive Design */
+        media (max-width: 768px) {
+            .navbar {
+                padding: 10px 0;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .results-cards, .nutrition-programs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .day-plan {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navbar -->
+    
+    <div class="container">
+        <header>
+            <h1>Your Fitness Journey Starts Here</h1>
+            <p>Discover the best ways to achieve a healthy body and high fitness level with our specialized programs</p>
+        </header>
+        
+        <button class="cta-button" id="start-journey">Start Your Journey</button>
+        
+        <!-- BMI Calculator Section -->
+        <section class="bmi-section" id="bmi-section">
+            <h2>Body Mass Index (BMI) Calculator</h2>
+            <div class="bmi-form">
+                <div class="form-group">
+                    <label for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" placeholder="Enter your weight in kilograms">
+                </div>
+                <div class="form-group">
+                    <label for="height">Height (cm)</label>
+                    <input type="number" id="height" placeholder="Enter your height in centimeters">
+                </div>
+                <button class="calculate-btn" id="calculate">Calculate</button>
+            </div>
+            
+            <div class="result" id="result"></div>
+            <div class="result-details" id="result-details"></div>
+            
+            <div class="results-cards">
+                <div class="card underweight" id="underweight-card">
+                    <h3>Underweight</h3>
+                    <p>BMI less than 18.5</p>
+                    <p>We recommend consulting a nutritionist to gain weight in a healthy way</p>
+                    <button class="program-btn view-plan" data-plan="underweight">Show Diet Plan</button>
+                </div>
+                
+                <div class="card normal" id="normal-card">
+                    <h3>Normal Weight</h3>
+                    <p>BMI between 18.5 and 24.9</p>
+                    <p>Maintain your current weight through a balanced diet and regular exercise</p>
+                    <button class="program-btn view-plan" data-plan="normal">Show Diet Plan</button>
+                </div>
+                
+                <div class="card overweight" id="overweight-card">
+                    <h3>Overweight</h3>
+                    <p>BMI 25 or higher</p>
+                    <p>We recommend an exercise program and diet plan to lose weight in a healthy way</p>
+                    <button class="program-btn view-plan" data-plan="overweight">Show Diet Plan</button>
+                </div>
+            </div>
+            
+            <!-- Detailed Nutrition Plan -->
+            <div class="nutrition-plan" id="nutrition-plan">
+                <button class="close-plan" id="close-plan">X Close</button>
+            </div>
+            
+            <!-- Nutrition Programs -->
+            <h2 style="margin-top: 50px;">Our Nutrition Programs</h2>
+            <div class="nutrition-programs">
+                <div class="program-card">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Weight Gain Program">
+                    <div class="program-content">
+                        <h3>Weight Gain Program</h3>
+                        <p>Healthy diet system to gain weight and build muscles</p>
+                    </div>
+                    <div class="program-button-container">
+                        <button class="program-btn view-plan" data-plan="underweight">View Program</button>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <img src="https://images.unsplash.com/photo-1494390248081-4e521a5940db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Weight Maintenance Program">
+                    <div class="program-content">
+                        <h3>Weight Maintenance Program</h3>
+                        <p>Balanced system to maintain your current weight</p>
+                    </div>
+                    <div class="program-button-container">
+                        <button class="program-btn view-plan" data-plan="normal">View Program</button>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Weight Loss Program">
+                    <div class="program-content">
+                        <h3>Weight Loss Program</h3>
+                        <p>Effective diet system to lose excess weight</p>
+                    </div>
+                    <div class="program-button-container">
+                        <button class="program-btn view-plan" data-plan="overweight">View Program</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start Your Journey Button
+            const startButton = document.getElementById('start-journey');
+            const bmiSection = document.getElementById('bmi-section');
+            
+            startButton.addEventListener('click', function() {
+                bmiSection.style.display = 'block';
+                bmiSection.scrollIntoView({behavior: 'smooth'});
+            });
+            
+            // BMI Calculator
+            const calculateBtn = document.getElementById('calculate');
+            const resultDiv = document.getElementById('result');
+            const resultDetailsDiv = document.getElementById('result-details');
+            const underweightCard = document.getElementById('underweight-card');
+            const normalCard = document.getElementById('normal-card');
+            const overweightCard = document.getElementById('overweight-card');
+            
+            calculateBtn.addEventListener('click', function() {
+                const weight = parseFloat(document.getElementById('weight').value);
+                const height = parseFloat(document.getElementById('height').value);
+                
+                if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+                    resultDiv.textContent = 'Please enter valid values for weight and height';
+                    resultDetailsDiv.style.display = 'none';
+                    return;
+                }
+                
+                // Calculate Body Mass Index (BMI)
+                const heightInMeter = height / 100;
+                const bmi = weight / (heightInMeter * heightInMeter);
+                
+                // Determine category and appropriate message
+                let category = '';
+                let message = '';
+                let programType = '';
+                
+                if (bmi < 18.5) {
+                    category = 'Underweight';
+                    message = 'We recommend following a weight gain program to achieve a healthy and ideal weight.';
+                    programType = 'underweight';
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    category = 'Normal Weight';
+                    message = 'Well done! Your weight is in the healthy range. We recommend following a weight maintenance program.';
+                    programType = 'normal';
+                } else if (bmi >= 25 && bmi < 30) {
+                    category = 'Overweight';
+                    message = 'We recommend following a weight loss program to achieve a healthy and ideal weight.';
+                    programType = 'overweight';
+                } else {
+                    category = 'Obesity';
+                    message = 'We recommend consulting a nutritionist and following a weight loss program under medical supervision.';
+                    programType = 'overweight';
+                }
+                
+                // Display result
+                resultDiv.textContent = `Your BMI is: ${bmi.toFixed(2)} - ${category}`;
+                
+                // Display details
+                resultDetailsDiv.innerHTML = `
+                    <h4>Classification: ${category}</h4>
+                    <p>${message}</p>
+                    <p>Based on your classification, we recommend following the <strong>${programType === 'underweight' ? 'Weight Gain Program' : programType === 'normal' ? 'Weight Maintenance Program' : 'Weight Loss Program'}</strong> below.</p>
+                `;
+                resultDetailsDiv.style.display = 'block';
+                
+                // Hide all cards first
+                underweightCard.classList.remove('show');
+                normalCard.classList.remove('show');
+                overweightCard.classList.remove('show');
+                
+                // Show the appropriate card based on the result
+                if (bmi < 18.5) {
+                    setTimeout(function() {
+                        underweightCard.classList.add('show');
+                    }, 300);
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    setTimeout(function() {
+                        normalCard.classList.add('show');
+                    }, 300);
+                } else {
+                    setTimeout(function() {
+                        overweightCard.classList.add('show');
+                    }, 300);
+                }
+            });
+            
+            // Nutrition Plans
+            const nutritionPlan = document.getElementById('nutrition-plan');
+            const closePlanBtn = document.getElementById('close-plan');
+            const viewPlanButtons = document.querySelectorAll('.view-plan');
+            
+            // Nutrition plans data (5 days for each plan)
+            const nutritionPlans = {
+                underweight: {
+                    title: "Weight Gain Diet Plan",
+                    description: "This plan is specifically designed for people who are underweight and want to gain weight in a healthy and safe way.",
+                    days: [
+                        {
+                            day: "Day 1",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Oatmeal with full-fat milk + banana + honey spoon + handful of nuts"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Banana smoothie with peanut butter and full-fat milk"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Grilled chicken breast + brown rice + sautéed vegetables + avocado"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Full-fat yogurt with honey and nuts"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Grilled salmon + sweet potato + mixed vegetables"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 2",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Omelette with 3 eggs + cheese + vegetables + whole grain toast + avocado"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Mixed nuts + dates"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Whole wheat pasta with chicken breast and white sauce + salad"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Banana, yogurt and protein smoothie"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Grilled meat + brown rice + sautéed vegetables + salad"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 3",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Pancakes with honey and peanut butter + banana"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Nuts and dates"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Beef with potatoes and vegetables"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Protein smoothie"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Chicken with rice and vegetables"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 4",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Boiled eggs with whole grain toast and avocado"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Yogurt with fruits and nuts"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Fish with sweet potato and salad"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Peanut butter sandwich"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Pasta with minced meat"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 5",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Oatmeal with milk, banana and honey"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Mixed nuts"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Chicken with rice and potatoes"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Banana and yogurt smoothie"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Grilled meat with vegetables"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                normal: {
+                    title: "Weight Maintenance Diet Plan",
+                    description: "This plan is designed to maintain your current weight while providing your body with the necessary nutrients for optimal health.",
+                    days: [
+                        {
+                            day: "Day 1",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Oatmeal with low-fat milk + berries + honey spoon"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Apple + spoon of peanut butter"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Grilled chicken breast + quinoa + sautéed vegetables + salad"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Greek yogurt + handful of almonds"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Grilled fish + small sweet potato + mixed vegetables"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 2",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Omelette with 2 eggs + vegetables + whole grain toast"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Orange + handful of walnuts"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Salad with tuna + fresh vegetables + olive oil"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Low-fat milk + banana"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Grilled chicken + steamed broccoli + brown rice"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 3",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Green smoothie with spinach and banana"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Small carrot"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Grilled meat with sautéed vegetables"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Yogurt with berries"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Fish with salad and whole wheat bread"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 4",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Boiled eggs with whole grain toast"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Apple"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Chicken with brown rice and salad"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Nuts"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Vegetable soup with chicken"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 5",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Oatmeal with milk and fruits"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Orange"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Fish with potatoes and vegetables"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Yogurt"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Meat with sautéed vegetables"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                overweight: {
+                    title: "Weight Loss Diet Plan",
+                    description: "This plan is designed to lose excess weight in a healthy and safe way while maintaining muscle mass.",
+                    days: [
+                        {
+                            day: "Day 1",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "2 boiled eggs + vegetables + slice of whole grain toast"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Apple + handful of almonds"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Grilled chicken breast + large green salad + olive oil spoon"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Cucumber + carrot"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Grilled fish + sautéed vegetables without oil"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 2",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Oatmeal with water + berries + chia seeds spoon"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Fat-free Greek yogurt"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Salad with grilled chicken breast + fresh vegetables + balsamic vinegar"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Handful of small carrots"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Vegetable soup + small piece of grilled meat"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 3",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Vegetable omelette"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Cucumber"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Chicken breast with salad"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Apple"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Grilled fish with vegetables"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 4",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Oatmeal with fat-free milk"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Carrot"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Grilled meat with salad"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Yogurt"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Chicken with sautéed vegetables"
+                                }
+                            ]
+                        },
+                        {
+                            day: "Day 5",
+                            meals: [
+                                {
+                                    name: "Breakfast",
+                                    description: "Boiled eggs with vegetables"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Cucumber"
+                                },
+                                {
+                                    name: "Lunch",
+                                    description: "Fish with salad"
+                                },
+                                {
+                                    name: "Snack",
+                                    description: "Apple"
+                                },
+                                {
+                                    name: "Dinner",
+                                    description: "Vegetable soup with chicken"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            };
+            
+            // Show Nutrition Plan
+            viewPlanButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const planType = this.getAttribute('data-plan');
+                    showNutritionPlan(planType);
+                });
+            });
+            
+            // Close Nutrition Plan
+            closePlanBtn.addEventListener('click', function() {
+                nutritionPlan.classList.remove('show');
+                setTimeout(() => {
+                    nutritionPlan.style.display = 'none';
+                }, 800);
+            });
+            
+            // Function to show nutrition plan
+            function showNutritionPlan(planType) {
+                const plan = nutritionPlans[planType];
+                
+                let planHTML = `
+                    <h3>${plan.title}</h3>
+                    <div class="plan-header">
+                        <h4>${plan.description}</h4>
+                    </div>
+                    <div class="plan-days">
+                `;
+                
+                // Add day buttons
+                plan.days.forEach((day, index) => {
+                    planHTML += `
+                        <button class="day-btn ${index === 0 ? 'active' : ''}" data-day="${index}">${day.day}</button>
+                    `;
+                });
+                
+                planHTML += `</div>`;
+                
+                // Add day content
+                plan.days.forEach((day, index) => {
+                    planHTML += `
+                        <div class="day-plan ${index === 0 ? 'active' : ''}" id="day-${index}">
+                            <h5>${day.day}</h5>
+                    `;
+                    
+                    day.meals.forEach(meal => {
+                        planHTML += `
+                            <div class="meal">
+                                <h6>${meal.name}</h6>
+                                <p>${meal.description}</p>
+                            </div>
+                        `;
+                    });
+                    
+                    planHTML += `</div>`;
+                });
+                
+                nutritionPlan.innerHTML = planHTML + `<button class="close-plan" id="close-plan">X Close</button>`;
+                
+                nutritionPlan.style.display = 'block';
+                setTimeout(() => {
+                    nutritionPlan.classList.add('show');
+                }, 10);
+                
+                // Add click events for day buttons
+                const dayButtons = nutritionPlan.querySelectorAll('.day-btn');
+                const dayPlans = nutritionPlan.querySelectorAll('.day-plan');
+                
+                dayButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const dayIndex = this.getAttribute('data-day');
+                        
+                        // Remove active from all buttons
+                        dayButtons.forEach(btn => btn.classList.remove('active'));
+                        // Hide all plans
+                        dayPlans.forEach(plan => plan.classList.remove('active'));
+                        
+                        // Add active to selected button
+                        this.classList.add('active');
+                        // Show selected plan
+                        document.getElementById(`day-${dayIndex}`).classList.add('active');
+                    });
+                });
+                
+                // Reattach close event to the new button
+                document.getElementById('close-plan').addEventListener('click', function() {
+                    nutritionPlan.classList.remove('show');
+                    setTimeout(() => {
+                        nutritionPlan.style.display = 'none';
+                    }, 800);
+                });
+                
+                nutritionPlan.scrollIntoView({behavior: 'smooth'});
+            }
+        });
+    </script>
+</body>
+</html>

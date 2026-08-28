@@ -1,0 +1,611 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- HERO (full width) -->
+<div class="container-fluid px-0 mt-3">
+    <div class="hero-slider">
+        <div class="slide slide-1 active">
+            <h2>Achieve Your Best Fitness</h2>
+            <p>Workouts tailored to help you reach your goals safely and effectively</p>
+        </div>
+
+        <div class="slide slide-2">
+            <h2>Healthy Nutrition</h2>
+            <p>Balanced diet programs designed to support your lifestyle</p>
+        </div>
+
+        <div class="slide slide-3">
+            <h2>Live an Active Life</h2>
+            <p>Tips and routines to keep you moving every single day</p>
+        </div>
+
+        <div class="slider-arrow arrow-left">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="slider-arrow arrow-right">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+
+        <div class="slider-nav">
+            <div class="slider-dot active" data-slide="0"></div>
+            <div class="slider-dot" data-slide="1"></div>
+            <div class="slider-dot" data-slide="2"></div>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container mt-5">
+
+    <!-- ✅ Who We Are Section -->
+    <section class="who-we-are py-5 hidden-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Text -->
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h2 class="fw-bold mb-3">Who We Are</h2>
+                    <p class="text-muted">
+                        We are a team of certified trainers and nutrition specialists dedicated to helping
+                        you reach your fitness goals. Whether you want to lose weight, build muscle, or simply live healthier,
+                        our personalized programs have you covered.
+                    </p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Personalized training plans</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Nutrition guidance & meal plans</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Experienced certified coaches</li>
+                    </ul>
+                </div>
+
+                <!-- Image -->
+                <div class="col-md-6">
+                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Zml0bmVzc3xlbnwwfHwwfHx8MA%3D%3D"
+                         class="img-fluid rounded-3 shadow-lg" alt="Fitness Training">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ✅ Banner Section with Image and Text -->
+    <section class="banner-section my-5 hidden-section">
+        <div class="position-relative overflow-hidden rounded-3 shadow-lg">
+            <img src="https://images.unsplash.com/photo-1535914254981-b5012eebbd15?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aGVhbHRoeSUyMGZvb2QlMjBmaXRuZXNzfGVufDB8fDB8fHww"
+                 class="img-fluid w-100 banner-image" alt="Fitness and Nutrition">
+            <div class="banner-overlay"></div>
+            <div class="banner-content position-absolute top-50 start-50 translate-middle text-center text-white">
+                <h2 class="display-4 fw-bold mb-4">Our Essential Products</h2>
+                <p class="lead mb-4">Premium supplements and nutrition for your fitness journey</p>
+                <a href="/Product/ShowProductsCards" class="btn btn-light btn-lg px-4 py-2 fw-bold">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+  
+
+
+    <!-- ✅ BMI Calculator Button Section -->
+    <section class="bmi-section text-center py-5 my-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold mb-3">Discover Your Perfect Fitness Plan</h2>
+                    <p class="text-muted mb-4">Calculate your BMI and get a personalized fitness program tailored to your body type and goals</p>
+
+                    <div class="bmi-button-container">
+                        <a class="btn btn-bmi" asp-controller="Home" asp-action="BMIPlan">
+                            <span class="bmi-icon">
+                                <i class="fas fa-weight-scale"></i>
+                            </span>
+                            <span class="bmi-text">
+                                <span class="bmi-title">Calculate Your BMI</span>
+                                <span class="bmi-subtitle">Get Your Custom Fitness Plan</span>
+                            </span>
+                            <span class="bmi-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="bmi-features mt-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="fas fa-fire text-danger"></i>
+                                    <span>Weight Loss Programs</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="fas fa-dumbbell text-primary"></i>
+                                    <span>Muscle Building</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="fas fa-heartbeat text-success"></i>
+                                    <span>Fitness Maintenance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+</div>
+
+@section Styles {
+    <style>
+        /* تنسيقات قسم زر BMI */
+        .bmi-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 3rem 1rem;
+        }
+
+        .bmi-button-container {
+            position: relative;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+
+        .btn-bmi {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 10px 25px rgba(106, 17, 203, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-bmi:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: 0.5s;
+            }
+
+            .btn-bmi:hover:before {
+                left: 100%;
+            }
+
+            .btn-bmi:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(106, 17, 203, 0.4);
+            }
+
+            .btn-bmi:active {
+                transform: translateY(0);
+            }
+
+        .bmi-icon {
+            font-size: 1.8rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .bmi-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .bmi-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .bmi-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .bmi-arrow {
+            margin-left: 1.5rem;
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-bmi:hover .bmi-arrow {
+            transform: translateX(5px);
+        }
+
+        .bmi-features {
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem 0;
+        }
+
+            .feature-item i {
+                font-size: 1.2rem;
+                margin-right: 0.5rem;
+            }
+
+        /* تأثيرات responsive */
+        @@media (max-width: 768px) {
+            .btn-bmi
+
+        {
+            padding: 1rem 1.5rem;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .bmi-icon {
+            margin-right: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .bmi-text {
+            align-items: center;
+            text-align: center;
+        }
+
+        .bmi-arrow {
+            margin-left: 0;
+            margin-top: 0.5rem;
+        }
+
+        .bmi-title {
+            font-size: 1.1rem;
+        }
+
+        }
+
+        /* Footer Styles */
+        .site-footer {
+            background: linear-gradient(135deg, #5a5a5a 0%, #3a3a3a 100%);
+            color: #f1f1f1;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
+            .footer-column h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1.5rem;
+                position: relative;
+                padding-bottom: 0.5rem;
+                font-weight: 600;
+                color: #e0e0e0;
+            }
+
+                .footer-column h3::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 50px;
+                    height: 3px;
+                    background: linear-gradient(to right, #d4af37, #6a11cb);
+                    border-radius: 3px;
+                }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .footer-links li {
+                margin-bottom: 0.8rem;
+            }
+
+            .footer-links a {
+                color: #d1d1d1;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .footer-links a:hover {
+                    color: #ffffff;
+                    transform: translateX(5px);
+                }
+
+                .footer-links a i {
+                    font-size: 0.9rem;
+                    color: #d4af37;
+                }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #d4af37;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+            .social-icon:hover {
+                background: linear-gradient(135deg, #d4af37 0%, #6a11cb 100%);
+                color: white;
+                transform: translateY(-3px);
+            }
+
+        .footer-newsletter p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #d1d1d1;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+            .newsletter-input::placeholder {
+                color: #ccc;
+            }
+
+        .newsletter-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #d4af37 0%, #6a11cb 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+            .newsletter-btn:hover {
+                opacity: 0.9;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+            }
+
+        .footer-contact-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            margin-top: 0.2rem;
+            color: #d4af37;
+            font-size: 1.2rem;
+            min-width: 20px;
+        }
+
+        .contact-info {
+            flex: 1;
+            color: #d1d1d1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 12px;
+        }
+
+        /* Responsive styles for footer */
+        media (max-width: 768px) {
+            .footer-content
+
+        {
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .newsletter-form {
+            flex-direction: column;
+        }
+
+        .footer-column {
+            min-width: 100%;
+        }
+
+        }
+
+
+
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // إضافة الأنماط ديناميكياً لتجنب مشكلة قسم الـ Styles
+        document.addEventListener('DOMContentLoaded', function() {
+            // إنشاء عنصر style وإضافة التنسيقات إليه
+            const styleElement = document.createElement('style');
+            styleElement.textContent = `
+                /* أنيميشن لظهور الأقسام */
+                .hidden-section {
+                    opacity: 0;
+                    transform: translateY(50px);
+                    transition: opacity 0.8s ease, transform 0.8s ease;
+                }
+
+                .show-section {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                /* تنسيقات إضافية للقسم الجديد */
+                .our-products {
+                    background-color: #f8f9fa;
+                    border-radius: 15px;
+                }
+
+                /* تنسيقات البانر */
+                .banner-section {
+                    margin: 4rem 0;
+                }
+
+                .banner-image {
+                    height: 400px;
+                    object-fit: cover;
+                }
+
+                .banner-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+                }
+
+                .banner-content {
+                    z-index: 10;
+                    width: 80%;
+                }
+
+                .banner-content h2 {
+                    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+                }
+
+                .banner-content p {
+                    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+                }
+
+        media (max-width: 768px) {
+                    .banner-image {
+                        height: 300px;
+                    }
+
+                    .banner-content h2 {
+                        font-size: 2rem;
+                    }
+
+                    .banner-content p {
+                        font-size: 1rem;
+                    }
+                }
+            `;
+
+            // إضافة الأنماط إلى head المستند
+            document.head.appendChild(styleElement);
+        });
+
+        // basic slider init (if not already in fitness.js)
+        (function () {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            const arrows = document.querySelectorAll('.slider-arrow');
+            let current = 0;
+            let interval = setInterval(nextSlide, 5000);
+
+            function show(i) {
+                slides.forEach(s => s.classList.remove('active'));
+                dots.forEach(d => d.classList.remove('active'));
+                slides[i].classList.add('active');
+                dots[i].classList.add('active');
+                current = i;
+            }
+            function nextSlide() { show((current + 1) % slides.length); }
+            function prevSlide() { show((current - 1 + slides.length) % slides.length); }
+
+            dots.forEach((d, idx) => d.addEventListener('click', () => { show(idx); reset(); }));
+            arrows[0].addEventListener('click', () => { prevSlide(); reset(); });
+            arrows[1].addEventListener('click', () => { nextSlide(); reset(); });
+
+            function reset() { clearInterval(interval); interval = setInterval(nextSlide, 5000); }
+        })();
+
+        // كود الظهور التدريجي للأقسام
+        document.addEventListener("DOMContentLoaded", () => {
+            const hiddenSections = document.querySelectorAll(".hidden-section");
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("show-section");
+                        observer.unobserve(entry.target); // يظهر مرة واحدة بس
+                    }
+                });
+            }, { threshold: 0.2 }); // 20% من العنصر يكفي عشان يتفعل
+
+            hiddenSections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+}

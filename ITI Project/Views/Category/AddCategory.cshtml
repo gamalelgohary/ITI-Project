@@ -1,0 +1,29 @@
+﻿@using ITI_Project.DTO
+@model CategoryDTO
+@{
+    Layout = "_AdminLayout";
+}
+
+<div style="width:50%">
+    <h2>Add Category</h2>
+
+    <a asp-action="Index" asp-controller="Category"
+       class="btn btn-secondary mb-3"
+       style="background-color:#486888; color:white;">
+        <i class="bi bi-arrow-left-circle"></i> Back
+    </a>
+
+    <form asp-action="AddCategory" method="post">
+        <div class="mb-3">
+            <label asp-for="CategoryName" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="CategoryName" />
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success" style="background-color:#486888;">
+                <i class="bi bi-plus-circle"></i> Add
+            </button>
+        </div>
+    </form>
+</div>

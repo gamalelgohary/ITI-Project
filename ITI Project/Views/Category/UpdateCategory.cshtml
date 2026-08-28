@@ -1,0 +1,34 @@
+﻿@using ITI_Project.DTO
+@model CategoryDTO
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header text-white" style="background-color:#486888">
+            <h4 class="mb-0">Update Category</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="UpdateCategory">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <input type="text" class="form-control" asp-for="CategoryName" />
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" asp-controller="Category" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </a>
+                    <button type="submit" class="btn text-white"
+                            style="background-color:#486888;">
+                        <i class="bi bi-check2-circle"></i> Update
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
